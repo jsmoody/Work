@@ -9,13 +9,13 @@
 
     var width = 1680;
     var height = 960;
+    var radius = 25;
+    var source = 'green';
+    var undependant = 'red';
+    var dependant = 'blue';
 
-    var data1 = [];
-    var length = 2; // user defined lengt
+    var length = 10; // user defined length
 
-    for(var i = 0; i < length; i++) {
-      data1[i] = 1;
-    }
 
     var createData = function() {
                     for(var i = 0; i < length; i++) {
@@ -34,12 +34,19 @@
                   .attr('width', width)
                   .attr('height', height);
 
-    var createNodes = function() {
+    var createNodes = function(x, y, position) {
+                    if (position === 0) {
+                      var color = source;
+                    } else if {
+                      var color = dependant;
+                    }
                     var circle = canvas.append('circle')
-                                .attr('cx', ranX)
-                                .attr('cy', ranY)
-                                .attr('r', 25)
-                                .attr('fill', 'green');
+                                .attr('cx', x)
+                                .attr('cy', y)
+                                .attr('r', radius)
+                                .attr('fill', color);
+                    var previousX = x;
+                    var previousY = y;
                               }
     var createLine = function(x1, y1, x2, y2) {
                     var line = canvas.append('line')
@@ -51,31 +58,40 @@
                               .attr('stroke-width', 10)
                             }
 
-
-    var xLocation = [];
-    var yLocation = [];
     for(i = 0; i < length; i++){
       var ranX = Math.random()*width;
       var ranY = Math.random()*height;
-      xLocation[i] = ranX;
-      yLocation[i] = ranY;
 
-      createNodes();
-    }
+      if (ranX + radius > width) {
+        ranX = ranX - (ranX + radius - width);
+      } else if (ranX - radius < 0) {
+          ranX = ranX - (ranX - radius);
+      };
 
-    console.log(xLocation);
+      if (ranY - radius < 0) {
+          ranY = ranY - (ranY - radius);
+      } else if (ranY + radius > height) {
+          ranY= ranY - (ranY + radius - height);
+      };
 
-    for(i = 0; i < length; i++){
-      var data = [];
-      createData();
 
-      for(j = 0; j < length; i++) {
-        if (data[j] === 1) {
-          createLine(xLocation[i], yLocation[i], xLocation[j], yLocation[j])
-        }
+      createNodes(ranX, ranY, i);
+    };
 
-      }
-    }
+    // for(i = 0; i < length; i++){
+    //   var data = [];
+    //   createData();
+    //   var x  = data
+    //   console.log(x);
+    //
+    //   // for(j = 0; j < length; i++) {
+    //   //   if (data[j] === 1) {
+    //   //     console.log('Service' + i + 'depends on servie' + j + '.')
+    //   //     //createLine(xLocation[i], yLocation[i], xLocation[j], yLocation[j])
+    //   //   }
+    //   //
+    //   // }
+    // }
 
 
     </script>
